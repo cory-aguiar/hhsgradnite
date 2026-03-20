@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hilo High Grad Nite – Donations</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy:    #0a1f44;
+    --navy2:   #0d2757;
+    --gold:    #c9a227;
+    --gold-lt: #f0c84a;
+    --gold-pale:#fdf3d0;
+    --white:   #ffffff;
+    --offwhite:#f7f5ef;
+    --gray:    #6b7280;
+    --gray-lt: #e5e7eb;
+    --red:     #c0392b;
+    --green:   #16a34a;
+    --shadow:  0 4px 24px rgba(10,31,68,.15);
+    --radius:  12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--offwhite); color: var(--navy); min-height: 100vh; }
+
+  header {
+    background: var(--navy); color: var(--white);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    border-bottom: 4px solid var(--gold);
+    position: sticky; top: 0; z-index: 100; min-height: 70px;
+  }
+  .header-brand { display: flex; align-items: center; gap: .85rem; }
+  .header-shield {
+    width: 44px; height: 44px; background: var(--gold);
+    clip-path: polygon(50% 0%, 100% 20%, 100% 60%, 50% 100%, 0% 60%, 0% 20%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 900; color: var(--navy); flex-shrink: 0;
+  }
+  .header-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; line-height: 1.2; }
+  .header-title span { display: block; font-size: .72rem; font-family: 'DM Sans', sans-serif; font-weight: 400; opacity: .75; letter-spacing: .08em; text-transform: uppercase; }
+  .header-nav { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .tab-btn {
+    background: transparent; border: 2px solid transparent;
+    color: rgba(255,255,255,.7); font: 500 .82rem 'DM Sans',sans-serif;
+    padding: .45rem 1rem; border-radius: 6px; cursor: pointer;
+    letter-spacing: .04em; text-transform: uppercase; transition: all .2s;
+  }
+  .tab-btn:hover { color: var(--gold-lt); }
+  .tab-btn.active { border-color: var(--gold); color: var(--gold-lt); background: rgba(201,162,39,.12); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--navy2) 0%, #0a1f44 60%, #142f5e 100%);
+    color: var(--white); text-align: center; padding: 3.5rem 2rem 2.5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 120%, rgba(201,162,39,.18) 0%, transparent 70%);
+  }
+  .hero > div { position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-block; background: var(--gold); color: var(--navy);
+    font: 600 .72rem 'DM Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase;
+    padding: .3rem .9rem; border-radius: 20px; margin-bottom: 1rem;
+  }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin-bottom: .6rem; }
+  .hero h1 em { color: var(--gold-lt); font-style: normal; }
+  .hero p { font-size: 1rem; opacity: .8; max-width: 540px; margin: 0 auto; }
+  .hero-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-lt); }
+  .stat-lbl { font-size: .72rem; text-transform: uppercase; letter-spacing: .09em; opacity: .7; }
+
+  .progress-wrap { background: var(--navy); padding: 1rem 2rem; }
+  .progress-bar-outer { background: rgba(255,255,255,.15); border-radius: 99px; height: 10px; max-width: 700px; margin: 0 auto; }
+  .progress-bar-inner { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); transition: width .8s ease; }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: .35rem; }
+  .section-sub { color: var(--gray); font-size: .9rem; margin-bottom: 1.5rem; }
+  .divider { width: 52px; height: 3px; background: var(--gold); border-radius: 2px; margin-bottom: 1.5rem; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  .category-label {
+    font: 700 .72rem 'DM Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--navy); opacity: .6; margin: 2rem 0 .85rem;
+    display: flex; align-items: center; gap: .65rem;
+  }
+  .category-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-lt); }
+
+  .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
+  .item-card {
+    background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
+    overflow: hidden; transition: transform .2s, box-shadow .2s;
+    border: 2px solid transparent; cursor: pointer; position: relative;
+  }
+  .item-card:hover:not(.fully-funded) { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(10,31,68,.2); }
+  .item-card.selected { border-color: var(--gold); }
+  .item-card.fully-funded { opacity: .6; cursor: default; }
+  .item-card-top {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    padding: 1.1rem 1.2rem .8rem;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem;
+  }
+  .item-icon { font-size: 1.8rem; }
+  .item-tags { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
+  .item-type-tag { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: .18rem .55rem; border-radius: 20px; }
+  .type-food  { background: rgba(201,162,39,.25); color: var(--gold-lt); }
+  .type-money { background: rgba(22,163,74,.2);   color: #4ade80; }
+  .item-badge { font-size: .62rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; padding: .17rem .55rem; border-radius: 20px; }
+  .badge-open { background: rgba(255,255,255,.12); color: rgba(255,255,255,.7); }
+  .badge-full { background: rgba(22,163,74,.25); color: #4ade80; }
+  .item-card-body { padding: 1rem 1.2rem 1.2rem; }
+  .item-name { font-weight: 600; font-size: 1rem; margin-bottom: .2rem; }
+  .item-desc { font-size: .82rem; color: var(--gray); margin-bottom: .85rem; line-height: 1.4; }
+  .item-amount-money { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--navy); }
+  .item-amount-money span { font-size: .78rem; font-family: 'DM Sans', sans-serif; color: var(--gray); font-weight: 400; }
+  .item-amount-food { font-size: .88rem; font-weight: 600; color: var(--green); }
+  .item-progress-wrap { background: var(--gray-lt); border-radius: 99px; height: 6px; margin: .65rem 0 .35rem; }
+  .item-progress { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); }
+  .item-progress-lbl { font-size: .72rem; color: var(--gray); }
+  .item-check {
+    position: absolute; top: .75rem; right: .75rem; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--gold); color: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .85rem; opacity: 0; transition: opacity .15s;
+  }
+  .item-card.selected .item-check { opacity: 1; }
+
+  .check-box {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    color: var(--white); border-radius: var(--radius); padding: 1.4rem 1.75rem;
+    margin-bottom: 2rem; border-left: 5px solid var(--gold);
+    display: flex; align-items: flex-start; gap: 1.25rem;
+  }
+  .check-icon { font-size: 2.2rem; flex-shrink: 0; }
+  .check-box h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: .35rem; color: var(--gold-lt); }
+  .check-box p { font-size: .88rem; opacity: .88; line-height: 1.7; }
+  .check-box strong { color: var(--gold-lt); }
+
+  .cart-section { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; margin-top: 2rem; }
+  .cart-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 1rem; }
+  .cart-empty { color: var(--gray); font-size: .9rem; font-style: italic; }
+  .cart-section-lbl { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--gray); padding: .5rem 0 .2rem; }
+  .cart-item { display: flex; align-items: center; justify-content: space-between; padding: .6rem 0; border-bottom: 1px solid var(--gray-lt); gap: .75rem; }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-left { flex: 1; }
+  .cart-item-name { font-weight: 500; font-size: .9rem; }
+  .cart-item-sub { font-size: .78rem; color: var(--gray); }
+  .cart-qty { display: flex; align-items: center; gap: .45rem; }
+  .qty-btn {
+    width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--navy);
+    background: transparent; cursor: pointer; font-size: 1rem; color: var(--navy);
+    display: flex; align-items: center; justify-content: center; transition: background .15s;
+  }
+  .qty-btn:hover { background: var(--navy); color: var(--white); }
+  .qty-val { font-weight: 600; min-width: 20px; text-align: center; }
+  .cart-total { display: flex; justify-content: space-between; align-items: flex-start; padding-top: .85rem; margin-top: .5rem; border-top: 2px solid var(--navy); gap: 1rem; }
+  .cart-total-lbl { font-weight: 700; font-size: 1rem; }
+  .cart-total-note { font-size: .75rem; color: var(--gray); font-style: italic; margin-top: .2rem; }
+  .cart-total-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--navy); white-space: nowrap; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; }
+  @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: .35rem; }
+  .form-group.full { grid-column: 1/-1; }
+  label { font-size: .8rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--navy); }
+  input, textarea, select {
+    border: 1.5px solid var(--gray-lt); border-radius: 8px;
+    padding: .65rem .9rem; font: 400 .93rem 'DM Sans', sans-serif;
+    color: var(--navy); background: var(--offwhite); transition: border-color .15s; width: 100%;
+  }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--gold); background: var(--white); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .75rem 1.75rem; border-radius: 8px; cursor: pointer;
+    font: 600 .9rem 'DM Sans', sans-serif; letter-spacing: .04em;
+    border: none; transition: all .2s;
+  }
+  .btn-primary { background: var(--gold); color: var(--navy); }
+  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+  .btn-navy { background: var(--navy); color: var(--white); }
+  .btn-navy:hover { background: var(--navy2); }
+  .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+  .btn-outline:hover { background: var(--navy); color: var(--white); }
+  .btn-danger { background: transparent; color: var(--red); border: 1.5px solid var(--red); font-size: .8rem; padding: .4rem .85rem; }
+  .btn-danger:hover { background: var(--red); color: var(--white); }
+  .btn-sm { padding: .45rem 1rem; font-size: .8rem; }
+  .btn-full { width: 100%; justify-content: center; margin-top: 1rem; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
+
+  .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 700px) { .admin-grid { grid-template-columns: 1fr; } }
+  .admin-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; }
+  .admin-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 1.25rem; }
+  .admin-items-list { display: flex; flex-direction: column; gap: .65rem; max-height: 440px; overflow-y: auto; }
+  .admin-item { background: var(--offwhite); border-radius: 8px; padding: .8rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+  .admin-item-info { flex: 1; min-width: 0; }
+  .admin-item-name { font-weight: 600; font-size: .9rem; margin-bottom: .15rem; }
+  .admin-item-meta { font-size: .78rem; color: var(--gray); }
+  .type-pill { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; padding: .15rem .5rem; border-radius: 20px; margin-right: .35rem; }
+  .pill-food  { background: var(--gold-pale); color: #92701a; }
+  .pill-money { background: #dcfce7; color: #166534; }
+
+  .donations-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: var(--shadow); }
+  .donations-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .donations-table th { background: var(--navy); color: var(--gold-lt); font-weight: 600; text-transform: uppercase; letter-spacing: .07em; font-size: .7rem; padding: .75rem 1rem; text-align: left; white-space: nowrap; }
+  .donations-table td { padding: .75rem 1rem; border-bottom: 1px solid var(--gray-lt); vertical-align: top; }
+  .donations-table tr:hover td { background: var(--gold-pale); }
+
+  #toast {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+    background: var(--navy); color: var(--white);
+    padding: 1rem 1.5rem; border-radius: 10px; border-left: 4px solid var(--gold);
+    font-size: .9rem; max-width: 320px;
+    transform: translateY(120px); opacity: 0;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(10,31,68,.75); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    padding: 2rem; max-width: 540px; width: 100%; position: relative;
+    animation: popIn .25s ease;
+  }
+  @keyframes popIn { from { transform: scale(.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: var(--gray-lt); border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1rem; }
+  .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: .4rem; }
+  .success-icon { font-size: 3rem; text-align: center; margin-bottom: 1rem; }
+  .modal-check-box {
+    background: var(--gold-pale); border: 1.5px solid var(--gold);
+    border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: .87rem; line-height: 1.75;
+  }
+  .modal-check-box strong { color: var(--navy); }
+  .flex-between { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+  @media (max-width: 600px) {
+    header { padding: 0 1rem; }
+    main { padding: 1.5rem 1rem 3rem; }
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .check-box { flex-direction: column; gap: .75rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="header-shield">⚔</div>
+    <div class="header-title">
+      Hilo High School
+      <span>Grad Nite 2025 — Donations</span>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <button class="tab-btn active" onclick="switchView('parent',this)">🎓 Donate</button>
+    <button class="tab-btn" onclick="switchView('admin',this)">🛠 Admin</button>
+    <button class="tab-btn" onclick="switchView('log',this)">📋 Donations Log</button>
+  </nav>
+</header>
+
+<div class="hero">
+  <div>
+    <div class="hero-tag">🌺 Hilo High School • Class of 2025</div>
+    <h1>Support <em>Grad Nite</em><br>for Our Vikings!</h1>
+    <p>Sign up to bring food items or pledge monetary donations by check to help make Grad Nite unforgettable.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-val" id="stat-donors">0</div><div class="stat-lbl">Donors</div></div>
+      <div class="stat"><div class="stat-val" id="stat-monetary">$0</div><div class="stat-lbl">Pledged</div></div>
+      <div class="stat"><div class="stat-val" id="stat-food">0</div><div class="stat-lbl">Food Items</div></div>
+    </div>
+  </div>
+</div>
+<div class="progress-wrap">
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="overall-progress" style="width:0%"></div>
+  </div>
+</div>
+
+<main>
+
+  <div class="view active" id="view-parent">
+    <div class="flex-between">
+      <div>
+        <h2 class="section-title">Choose How to Contribute</h2>
+        <div class="divider"></div>
+        <p class="section-sub">Select items below — food donations you bring, monetary donations you send by check.</p>
+      </div>
+    </div>
+
+    <div class="check-box">
+      <div class="check-icon">✉️</div>
+      <div>
+        <h3>Monetary Donations — Pay by Check</h3>
+        <p>
+          Make checks payable to <strong>Hilo High Grad Nite</strong> and deliver or mail to:<br>
+          <strong>Hilo High School, Attn: Grad Nite Committee<br>
+          556 Waianuenue Avenue, Hilo, HI 96720</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="category-label">🍕 Monetary Donations — Pay by Check</div>
+    <div class="items-grid" id="money-grid"></div>
+
+    <div class="category-label">🧺 Food Item Donations — Bring the Item</div>
+    <div class="items-grid" id="food-grid"></div>
+
+    <div class="cart-section">
+      <div class="cart-title">🛒 Your Donation Cart</div>
+      <div id="cart-body"><p class="cart-empty">No items selected yet — tap any item above to add it!</p></div>
+      <div class="cart-total">
+        <div>
+          <div class="cart-total-lbl">Check Amount Due</div>
+          <div class="cart-total-note">Food items are brought directly — no check needed for those.</div>
+        </div>
+        <div class="cart-total-val" id="cart-total">$0.00</div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Parent / Guardian Name *</label>
+          <input type="text" id="donor-name" placeholder="Jane Smith" />
+        </div>
+        <div class="form-group">
+          <label>Student's Name</label>
+          <input type="text" id="student-name" placeholder="Alex Smith" />
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="donor-email" placeholder="jane@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="donor-phone" placeholder="(808) 555-0123" />
+        </div>
+        <div class="form-group full">
+          <label>Message (optional)</label>
+          <textarea id="donor-message" rows="2" placeholder="Go Vikings! Class of 2025!"></textarea>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" id="submit-btn" onclick="submitDonation()">🎉 Submit Donation Pledge</button>
+      <p style="font-size:.75rem;color:var(--gray);text-align:center;margin-top:.65rem;">
+        Submitting records your pledge. Please mail your check separately to the address above.
+      </p>
+    </div>
+  </div>
+
+  <div class="view" id="view-admin">
+    <div class="flex-between">
+      <div>
+        <h2 class="section-title">Admin Panel</h2>
+        <div class="divider"></div>
+        <p class="section-sub">Add and manage donation items for Grad Nite 2025. Set the quantity needed for each item.</p>
+      </div>
+    </div>
+    <div class="admin-grid">
+      <div class="admin-card">
+        <h3>➕ Add New Item</h3>
+        <div class="form-group" style="margin-bottom:.85rem;">
+          <label>Item Name *</label>
+          <input type="text" id="new-name" placeholder="e.g. 2-Liter Soda" />
+        </div>
+        <div class="form-group" style="margin-bottom:.85rem;">
+          <label>Type *</label>
+          <select id="new-type" onchange="toggleAmountField()">
+            <option value="money">💵 Monetary — parent pays by check</option>
+            <option value="food">🧺 Food Item — parent brings the item</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:.85rem;">
+          <label>Description</label>
+          <input type="text" id="new-desc" placeholder="Brief note shown to parents" />
+        </div>
+        <div class="form-group" style="margin-bottom:.85rem;">
+          <label>Icon / Emoji</label>
+          <input type="text" id="new-icon" placeholder="🍕" maxlength="2" />
+        </div>
+        <div id="amount-row" class="form-group" style="margin-bottom:.85rem;">
+          <label>Amount per Unit ($) *</label>
+          <input type="number" id="new-amount" placeholder="20" min="1" />
+        </div>
+        <div class="form-group" style="margin-bottom:1.1rem;">
+          <label>Quantity Needed *</label>
+          <input type="number" id="new-qty" placeholder="e.g. 10" min="1" value="1" />
+        </div>
+        <button class="btn btn-navy btn-full" onclick="addItem()">Add Item</button>
+      </div>
+      <div class="admin-card">
+        <h3>📦 Current Items (<span id="admin-count">0</span>)</h3>
+        <div class="admin-items-list" id="admin-items-list">
+          <p style="color:var(--gray);font-size:.88rem;">No items yet. Add your first item on the left.</p>
+        </div>
+      </div>
+    </div>
+    <div class="admin-card" style="margin-top:1.5rem;">
+      <h3>📊 Overview</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;margin-top:.75rem;" id="admin-summary"></div>
+    </div>
+  </div>
+
+  <div class="view" id="view-log">
+    <div class="flex-between">
+      <div>
+        <h2 class="section-title">Donations Log</h2>
+        <div class="divider"></div>
+        <p class="section-sub">All submitted donation pledges from parents.</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+    </div>
+    <div class="donations-table-wrap">
+      <table class="donations-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Date</th><th>Parent</th><th>Student</th>
+            <th>Food Items</th><th>Monetary Items</th><th>Check Amount</th><th>Message</th>
+          </tr>
+        </thead>
+        <tbody id="donations-tbody">
+          <tr><td colspan="8" style="text-align:center;color:var(--gray);padding:2rem;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<div class="modal-overlay" id="success-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="success-icon">🎉</div>
+    <h2>Mahalo for Your Support!</h2>
+    <p style="color:var(--gray);margin:.4rem 0 0;">Your pledge is recorded. See instructions below.</p>
+    <div id="modal-summary" style="background:var(--offwhite);border-radius:8px;padding:1rem 1.1rem;font-size:.87rem;margin:1rem 0;line-height:1.8;"></div>
+    <div class="modal-check-box" id="modal-check-box">
+      ✉️ <strong>Please mail your check to:</strong><br>
+      Make check payable to <strong>Hilo High Grad Nite</strong><br>
+      Hilo High School, Attn: Grad Nite Committee<br>
+      556 Waianuenue Avenue, Hilo, HI 96720
+    </div>
+    <button class="btn btn-primary btn-full" onclick="closeModal()">Done — Go Vikings! 🤙</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+  const SUPABASE_URL = 'https://mocntbmnkyuwlwqkjtvy.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY250Ym1ua3l1d2x3cWtqdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODA0NDMsImV4cCI6MjA4OTU1NjQ0M30.l8A47qe2prSAWtT_QDUe4eaPsiBL9Rw9PXzBHyly3nY';
+
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  let items = [
+    { id:1,  name:'Pizza',                       type:'money', desc:'$20 covers the cost of one pie.',          amount:20, qty:20, donated:0, icon:'🍕' },
+    { id:2,  name:'2-Liter Sodas',               type:'food',  desc:'Assorted flavors for the party.',           amount:0,  qty:15, donated:0, icon:'🥤' },
+    { id:3,  name:'Chips & Snacks',              type:'food',  desc:'Bags of chips, pretzels, or popcorn.',      amount:0,  qty:10, donated:0, icon:'🍿' },
+    { id:4,  name:'Paper Plates, Cups & Napkins',type:'food',  desc:'Any brand/quantity pack.',                  amount:0,  qty:8,  donated:0, icon:'🧻' },
+    { id:5,  name:'Desserts / Cookies',          type:'food',  desc:'Store-bought or homemade sweet treats.',    amount:0,  qty:10, donated:0, icon:'🍪' },
+    { id:6,  name:'Water Cases',                 type:'food',  desc:'24-pack bottled water.',                    amount:0,  qty:12, donated:0, icon:'💧' },
+    { id:7,  name:'Candy',                       type:'food',  desc:'Assorted candy bags or bowls.',             amount:0,  qty:8,  donated:0, icon:'🍬' },
+    { id:8,  name:'Ice Cream Toppings',          type:'food',  desc:'Sprinkles, syrups, nuts, whipped cream.',   amount:0,  qty:6,  donated:0, icon:'🍦' },
+  ];
+  let nextId = 9;
+  let cart = {};
+  let donations = [];
+
+  async function loadDonations() {
+    try {
+      const { data, error } = await db
+        .from('donations')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      if (data) {
+        donations = data.map(d => ({
+          date:       new Date(d.created_at).toLocaleDateString('en-US'),
+          name:       d.parent_name,
+          student:    d.student_name || '—',
+          email:      d.email,
+          phone:      d.phone || '—',
+          foodItems:  d.food_items  || '—',
+          moneyItems: d.money_items || '—',
+          moneyTotal: parseFloat(d.check_amount) || 0,
+          message:    d.message || '—'
+        }));
+        updateStats();
+        renderLog();
+      }
+    } catch (err) {
+      console.error('Error loading donations:', err);
+    }
+  }
+
+  async function saveDonation(record) {
+    const { error } = await db.from('donations').insert({
+      parent_name:  record.name,
+      student_name: record.student !== '—' ? record.student : null,
+      email:        record.email,
+      phone:        record.phone  !== '—' ? record.phone   : null,
+      food_items:   record.foodItems  !== '—' ? record.foodItems  : null,
+      money_items:  record.moneyItems !== '—' ? record.moneyItems : null,
+      check_amount: record.moneyTotal,
+      message:      record.message !== '—' ? record.message : null
+    });
+    if (error) throw error;
+  }
+
+  function toggleAmountField() {
+    const type = document.getElementById('new-type').value;
+    document.getElementById('amount-row').style.display = type === 'money' ? 'flex' : 'none';
+  }
+  toggleAmountField();
+
+  function switchView(v, btn) {
+    document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('view-' + v).classList.add('active');
+    btn.classList.add('active');
+    if (v === 'admin')  renderAdmin();
+    if (v === 'log')    renderLog();
+    if (v === 'parent') renderParentGrids();
+  }
+
+  function renderParentGrids() {
+    renderGrid('money-grid', items.filter(i => i.type === 'money'));
+    renderGrid('food-grid',  items.filter(i => i.type === 'food'));
+    renderCart();
+  }
+
+  function renderGrid(gridId, list) {
+    const grid = document.getElementById(gridId);
+    if (!list.length) {
+      grid.innerHTML = '<p style="color:var(--gray);font-size:.88rem;font-style:italic;padding:.25rem 0;">No items in this category yet.</p>';
+      return;
+    }
+    grid.innerHTML = '';
+    list.forEach(item => {
+      const pct    = Math.min(100, Math.round((item.donated / item.qty) * 100));
+      const isFull = item.donated >= item.qty;
+      const isSel  = !!cart[item.id];
+      const card   = document.createElement('div');
+      card.className = 'item-card' + (isFull ? ' fully-funded' : '') + (isSel ? ' selected' : '');
+      if (!isFull) card.onclick = () => toggleCart(item.id);
+      const amtHtml = item.type === 'money'
+        ? `<div class="item-amount-money">$${item.amount.toFixed(2)} <span>/ unit • pay by check</span></div>`
+        : `<div class="item-amount-food">🧺 Bring this item</div>`;
+      card.innerHTML = `
+        <div class="item-check">✓</div>
+        <div class="item-card-top">
+          <div class="item-icon">${item.icon}</div>
+          <div class="item-tags">
+            <span class="item-type-tag ${item.type === 'food' ? 'type-food' : 'type-money'}">${item.type === 'food' ? '🧺 Bring Item' : '💵 By Check'}</span>
+            <span class="item-badge ${isFull ? 'badge-full' : 'badge-open'}">${isFull ? '✓ Filled' : (item.qty - item.donated) + ' still needed'}</span>
+          </div>
+        </div>
+        <div class="item-card-body">
+          <div class="item-name">${item.name}</div>
+          <div class="item-desc">${item.desc}</div>
+          ${amtHtml}
+          <div class="item-progress-wrap"><div class="item-progress" style="width:${pct}%"></div></div>
+          <div class="item-progress-lbl">${item.donated} of ${item.qty} pledged (${pct}%)</div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function toggleCart(id) {
+    if (cart[id]) delete cart[id];
+    else cart[id] = 1;
+    renderParentGrids();
+  }
+
+  function changeQty(id, delta) {
+    if (!cart[id]) return;
+    const item = items.find(i => i.id === id);
+    const max  = item ? (item.qty - item.donated) : 99;
+    cart[id]   = Math.max(1, Math.min(max, cart[id] + delta));
+    renderCart();
+  }
+
+  function renderCart() {
+    const body    = document.getElementById('cart-body');
+    const totalEl = document.getElementById('cart-total');
+    const ids     = Object.keys(cart).map(Number);
+    if (!ids.length) {
+      body.innerHTML = '<p class="cart-empty">No items selected yet — tap any item above to get started!</p>';
+      totalEl.textContent = '$0.00';
+      return;
+    }
+    let foodHtml = '', moneyHtml = '', moneyTotal = 0;
+    ids.forEach(id => {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      const qty = cart[id];
+      if (item.type === 'food') {
+        foodHtml += `<div class="cart-item">
+          <div class="cart-item-left">
+            <div class="cart-item-name">${item.icon} ${item.name}</div>
+            <div class="cart-item-sub">Please bring on the day of Grad Nite</div>
+          </div>
+          <div class="cart-qty">
+            <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+            <span class="qty-val">${qty}</span>
+            <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+            <span style="margin-left:.4rem;font-size:.82rem;font-weight:700;color:var(--green);">Free ✓</span>
+          </div>
+        </div>`;
+      } else {
+        const sub = item.amount * qty;
+        moneyTotal += sub;
+        moneyHtml += `<div class="cart-item">
+          <div class="cart-item-left">
+            <div class="cart-item-name">${item.icon} ${item.name}</div>
+            <div class="cart-item-sub">$${item.amount.toFixed(2)} × ${qty} = $${sub.toFixed(2)} • mail check</div>
+          </div>
+          <div class="cart-qty">
+            <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+            <span class="qty-val">${qty}</span>
+            <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+            <span style="margin-left:.4rem;font-weight:700;">$${sub.toFixed(2)}</span>
+          </div>
+        </div>`;
+      }
+    });
+    let html = '';
+    if (moneyHtml) html += `<div class="cart-section-lbl">💵 Monetary (pay by check)</div>${moneyHtml}`;
+    if (foodHtml)  html += `<div class="cart-section-lbl" style="margin-top:.6rem;">🧺 Food Items (bring these)</div>${foodHtml}`;
+    body.innerHTML = html;
+    totalEl.textContent = '$' + moneyTotal.toFixed(2);
+  }
+
+  async function submitDonation() {
+    const name  = document.getElementById('donor-name').value.trim();
+    const email = document.getElementById('donor-email').value.trim();
+    if (!name)  { toast('Please enter your name.'); return; }
+    if (!email) { toast('Please enter your email address.'); return; }
+    const ids = Object.keys(cart).map(Number);
+    if (!ids.length) { toast('Please select at least one item.'); return; }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    let foodItems = [], moneyItems = [], moneyTotal = 0;
+    ids.forEach(id => {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      const qty = cart[id];
+      item.donated = Math.min(item.qty, item.donated + qty);
+      if (item.type === 'food') {
+        foodItems.push(`${item.icon} ${item.name} ×${qty}`);
+      } else {
+        const sub = item.amount * qty;
+        moneyTotal += sub;
+        moneyItems.push(`${item.icon} ${item.name} ×${qty} ($${sub.toFixed(2)})`);
+      }
+    });
+
+    const record = {
+      date:       new Date().toLocaleDateString('en-US'),
+      name,
+      student:    document.getElementById('student-name').value.trim() || '—',
+      email,
+      phone:      document.getElementById('donor-phone').value.trim() || '—',
+      foodItems:  foodItems.join(', ')  || '—',
+      moneyItems: moneyItems.join(', ') || '—',
+      moneyTotal,
+      message:    document.getElementById('donor-message').value.trim() || '—'
+    };
+
+    try {
+      await saveDonation(record);
+      donations.unshift(record);
+      let sumHtml = `<strong>${name}</strong>`;
+      if (record.student !== '—') sumHtml += ` (parent of ${record.student})`;
+      sumHtml += '<br>';
+      if (moneyItems.length) sumHtml += `💵 <strong>Monetary:</strong> ${moneyItems.join(', ')}<br>`;
+      if (foodItems.length)  sumHtml += `🧺 <strong>Bringing:</strong> ${foodItems.join(', ')}<br>`;
+      if (moneyTotal > 0)    sumHtml += `<br><strong>Total Check Amount: $${moneyTotal.toFixed(2)}</strong>`;
+      document.getElementById('modal-summary').innerHTML = sumHtml;
+      document.getElementById('modal-check-box').style.display = moneyTotal > 0 ? 'block' : 'none';
+      document.getElementById('success-modal').classList.add('open');
+      cart = {};
+      ['donor-name','student-name','donor-email','donor-phone','donor-message'].forEach(id => document.getElementById(id).value = '');
+      updateStats();
+      renderParentGrids();
+    } catch (err) {
+      console.error(err);
+      toast('Something went wrong saving your pledge. Please try again.');
+    }
+
+    btn.disabled = false;
+    btn.textContent = '🎉 Submit Donation Pledge';
+  }
+
+  function addItem() {
+    const name = document.getElementById('new-name').value.trim();
+    const type = document.getElementById('new-type').value;
+    const qty  = parseInt(document.getElementById('new-qty').value) || 1;
+    const icon = document.getElementById('new-icon').value.trim() || (type === 'food' ? '🍽️' : '💵');
+    const desc = document.getElementById('new-desc').value.trim();
+    if (!name) { toast('Item name is required.'); return; }
+    let amount = 0;
+    if (type === 'money') {
+      amount = parseFloat(document.getElementById('new-amount').value);
+      if (!amount || amount < 1) { toast('Please enter a valid dollar amount.'); return; }
+    }
+    items.push({ id: nextId++, name, type, desc: desc || (type === 'food' ? 'Bring this item to Grad Nite.' : 'Monetary donation — pay by check.'), amount, qty, donated: 0, icon });
+    document.getElementById('new-name').value   = '';
+    document.getElementById('new-desc').value   = '';
+    document.getElementById('new-icon').value   = '';
+    document.getElementById('new-amount').value = '';
+    document.getElementById('new-qty').value    = '1';
+    toast('Item added successfully! ✓');
+    renderAdmin();
+  }
+
+  function removeItem(id) {
+    if (!confirm('Remove this item?')) return;
+    items = items.filter(i => i.id !== id);
+    delete cart[id];
+    renderAdmin();
+  }
+
+  function renderAdmin() {
+    const list = document.getElementById('admin-items-list');
+    document.getElementById('admin-count').textContent = items.length;
+    if (!items.length) {
+      list.innerHTML = '<p style="color:var(--gray);font-size:.88rem;">No items yet. Add your first item.</p>';
+    } else {
+      list.innerHTML = items.map(item => `
+        <div class="admin-item">
+          <div class="admin-item-info">
+            <div class="admin-item-name">
+              <span class="type-pill ${item.type === 'food' ? 'pill-food' : 'pill-money'}">${item.type === 'food' ? 'Food' : 'Monetary'}</span>
+              ${item.icon} ${item.name}
+            </div>
+            <div class="admin-item-meta">
+              ${item.type === 'money' ? `$${item.amount.toFixed(2)}/unit &nbsp;·&nbsp; ` : ''}
+              Need: ${item.qty} &nbsp;·&nbsp; Pledged: ${item.donated}
+            </div>
+          </div>
+          <button class="btn btn-danger" onclick="removeItem(${item.id})">Remove</button>
+        </div>`).join('');
+    }
+    const moneyGoal   = items.filter(i => i.type === 'money').reduce((s,i) => s + i.amount * i.qty, 0);
+    const moneyRaised = donations.reduce((s,d) => s + d.moneyTotal, 0);
+    const foodNeeded  = items.filter(i => i.type === 'food').reduce((s,i) => s + i.qty, 0);
+    const foodPledged = items.filter(i => i.type === 'food').reduce((s,i) => s + i.donated, 0);
+    document.getElementById('admin-summary').innerHTML = [
+      tile('🎯 Check Goal',   '$' + moneyGoal.toFixed(0)),
+      tile('💰 Pledged',      '$' + moneyRaised.toFixed(0)),
+      tile('🧺 Food Needed',  foodNeeded),
+      tile('✅ Food Pledged', foodPledged),
+      tile('👨‍👩‍👧 Donors',     donations.length),
+      tile('📦 Total Items',  items.length),
+    ].join('');
+  }
+
+  function tile(label, val) {
+    return `<div style="background:var(--offwhite);border-radius:10px;padding:1rem;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy)">${val}</div>
+      <div style="font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;margin-top:.2rem;">${label}</div>
+    </div>`;
+  }
+
+  function renderLog() {
+    const tbody = document.getElementById('donations-tbody');
+    if (!donations.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--gray);padding:2rem;">No donations yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = donations.map((d,i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td style="white-space:nowrap">${d.date}</td>
+        <td><strong>${d.name}</strong><br><span style="font-size:.75rem;color:var(--gray)">${d.email}<br>${d.phone}</span></td>
+        <td>${d.student}</td>
+        <td style="font-size:.8rem;max-width:180px;">${d.foodItems}</td>
+        <td style="font-size:.8rem;max-width:180px;">${d.moneyItems}</td>
+        <td style="white-space:nowrap"><strong>${d.moneyTotal > 0 ? '$'+d.moneyTotal.toFixed(2) : '—'}</strong></td>
+        <td style="font-size:.8rem;color:var(--gray);font-style:italic;max-width:150px;">${d.message}</td>
+      </tr>`).join('');
+  }
+
+  function exportCSV() {
+    if (!donations.length) { toast('No donations to export yet.'); return; }
+    const hdr  = ['#','Date','Parent Name','Email','Phone','Student','Food Items','Monetary Items','Check Amount','Message'];
+    const rows = donations.map((d,i) => [
+      i+1, d.date, `"${d.name}"`, d.email, d.phone, `"${d.student}"`,
+      `"${d.foodItems}"`, `"${d.moneyItems}"`,
+      d.moneyTotal > 0 ? d.moneyTotal.toFixed(2) : '0.00',
+      `"${d.message}"`
+    ]);
+    const csv = [hdr, ...rows].map(r => r.join(',')).join('\n');
+    const a   = document.createElement('a');
+    a.href    = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = 'grad-nite-donations.csv';
+    a.click();
+  }
+
+  function updateStats() {
+    const raised    = donations.reduce((s,d) => s + d.moneyTotal, 0);
+    const foodCount = items.filter(i => i.type === 'food').reduce((s,i) => s + i.donated, 0);
+    document.getElementById('stat-donors').textContent   = donations.length;
+    document.getElementById('stat-monetary').textContent = '$' + raised.toFixed(0);
+    document.getElementById('stat-food').textContent     = foodCount;
+    const goal = items.filter(i => i.type === 'money').reduce((s,i) => s + i.amount * i.qty, 0);
+    const pct  = goal > 0 ? Math.min(100, (raised / goal) * 100) : 0;
+    document.getElementById('overall-progress').style.width = pct + '%';
+  }
+
+  function closeModal() { document.getElementById('success-modal').classList.remove('open'); }
+
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+  }
+
+  renderParentGrids();
+  updateStats();
+  loadDonations();
+
+</script>
+</body>
+</html>
