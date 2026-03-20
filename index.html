@@ -303,7 +303,24 @@
     margin-bottom: 1rem;
     display: flex; align-items: flex-start; gap: 1.25rem;
   }
-  .vol-slot-time {
+  .hero-nav { display: flex; justify-content: center; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap; }
+  .hero-nav-btn {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .85rem 2.2rem;
+    border-radius: 99px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    cursor: pointer; border: 2.5px solid rgba(255,255,255,.35);
+    background: rgba(255,255,255,.12); color: var(--white);
+    transition: background .18s, border-color .18s, transform .12s;
+    letter-spacing: .02em;
+  }
+  .hero-nav-btn:hover { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.6); }
+  .hero-nav-btn.active {
+    background: var(--gold); color: var(--navy);
+    border-color: var(--gold); box-shadow: 0 4px 18px rgba(201,162,39,.45);
+  }
+  .hero-nav-btn .btn-icon { font-size: 1.2rem; }
     background: var(--navy);
     color: var(--gold-lt);
     border-radius: 8px;
@@ -339,8 +356,8 @@
     </div>
   </div>
   <nav class="header-nav">
-    <button class="tab-btn" onclick="switchView('volunteer',this)">🙋 Volunteer</button>
-    <button class="tab-btn active" onclick="switchView('parent',this)">🎓 Donate</button>
+    <button class="tab-btn active" onclick="switchView('volunteer',this)">🙋 Volunteer</button>
+    <button class="tab-btn" onclick="switchView('parent',this)">🎓 Donate</button>
     <button class="tab-btn" onclick="switchView('admin',this)">🛠 Admin</button>
   </nav>
 </header>
@@ -355,6 +372,14 @@
       <div class="stat"><div class="stat-val" id="stat-monetary">$0</div><div class="stat-lbl">Pledged</div></div>
       <div class="stat"><div class="stat-val" id="stat-food">0</div><div class="stat-lbl">Food Items</div></div>
     </div>
+    <div class="hero-nav">
+      <button class="hero-nav-btn active" id="hero-btn-volunteer" onclick="switchViewHero('volunteer')">
+        <span class="btn-icon">🙋</span> Volunteer
+      </button>
+      <button class="hero-nav-btn" id="hero-btn-parent" onclick="switchViewHero('parent')">
+        <span class="btn-icon">🎓</span> Donate
+      </button>
+    </div>
   </div>
 </div>
 <div class="progress-wrap">
@@ -365,7 +390,7 @@
 
 <main>
   <!-- VOLUNTEER VIEW -->
-  <div class="view" id="view-volunteer">
+  <div class="view active" id="view-volunteer">
     <div class="flex-between">
       <div>
         <h2 class="section-title">Volunteer Sign-Up</h2>
@@ -468,7 +493,7 @@
   </div>
 
   <!-- PARENT VIEW -->
-  <div class="view active" id="view-parent">
+  <div class="view" id="view-parent">
     <div class="flex-between">
       <div>
         <h2 class="section-title">Choose How to Contribute</h2>
@@ -914,11 +939,22 @@ Hilo High Grad Nite Committee 🤙
   }
   toggleAmountField();
 
+  function switchViewHero(v) {
+    // Find the matching tab-btn and delegate to switchView
+    const tabBtn = [...document.querySelectorAll('.tab-btn')].find(b => b.getAttribute('onclick').includes("'" + v + "'"));
+    if (tabBtn) switchView(v, tabBtn);
+  }
+
   function switchView(v, btn) {
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     document.getElementById('view-' + v).classList.add('active');
     btn.classList.add('active');
+    // Sync hero nav buttons
+    ['volunteer','parent'].forEach(id => {
+      const hb = document.getElementById('hero-btn-' + id);
+      if (hb) hb.classList.toggle('active', id === v);
+    });
     if (v === 'admin' && adminUnlocked) { renderAdmin(); loadVolunteers(); }
     if (v === 'parent') renderParentGrids();
   }
