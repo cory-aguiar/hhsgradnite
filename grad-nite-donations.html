@@ -24,6 +24,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--offwhite); color: var(--navy); min-height: 100vh; }
 
+  /* HEADER */
   header {
     background: var(--navy); color: var(--white);
     padding: 0 2rem;
@@ -50,6 +51,7 @@
   .tab-btn:hover { color: var(--gold-lt); }
   .tab-btn.active { border-color: var(--gold); color: var(--gold-lt); background: rgba(201,162,39,.12); }
 
+  /* HERO */
   .hero {
     background: linear-gradient(135deg, var(--navy2) 0%, #0a1f44 60%, #142f5e 100%);
     color: var(--white); text-align: center; padding: 3.5rem 2rem 2.5rem;
@@ -73,10 +75,12 @@
   .stat-val { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-lt); }
   .stat-lbl { font-size: .72rem; text-transform: uppercase; letter-spacing: .09em; opacity: .7; }
 
+  /* PROGRESS */
   .progress-wrap { background: var(--navy); padding: 1rem 2rem; }
   .progress-bar-outer { background: rgba(255,255,255,.15); border-radius: 99px; height: 10px; max-width: 700px; margin: 0 auto; }
   .progress-bar-inner { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); transition: width .8s ease; }
 
+  /* MAIN */
   main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
   .section-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: .35rem; }
   .section-sub { color: var(--gray); font-size: .9rem; margin-bottom: 1.5rem; }
@@ -84,6 +88,7 @@
   .view { display: none; }
   .view.active { display: block; }
 
+  /* CATEGORY LABEL */
   .category-label {
     font: 700 .72rem 'DM Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase;
     color: var(--navy); opacity: .6; margin: 2rem 0 .85rem;
@@ -91,6 +96,7 @@
   }
   .category-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-lt); }
 
+  /* ITEMS GRID */
   .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
   .item-card {
     background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
@@ -107,7 +113,10 @@
   }
   .item-icon { font-size: 1.8rem; }
   .item-tags { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
-  .item-type-tag { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: .18rem .55rem; border-radius: 20px; }
+  .item-type-tag {
+    font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    padding: .18rem .55rem; border-radius: 20px;
+  }
   .type-food  { background: rgba(201,162,39,.25); color: var(--gold-lt); }
   .type-money { background: rgba(22,163,74,.2);   color: #4ade80; }
   .item-badge { font-size: .62rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; padding: .17rem .55rem; border-radius: 20px; }
@@ -130,6 +139,7 @@
   }
   .item-card.selected .item-check { opacity: 1; }
 
+  /* CHECK BOX */
   .check-box {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
     color: var(--white); border-radius: var(--radius); padding: 1.4rem 1.75rem;
@@ -141,6 +151,7 @@
   .check-box p { font-size: .88rem; opacity: .88; line-height: 1.7; }
   .check-box strong { color: var(--gold-lt); }
 
+  /* CART */
   .cart-section { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; margin-top: 2rem; }
   .cart-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 1rem; }
   .cart-empty { color: var(--gray); font-size: .9rem; font-style: italic; }
@@ -163,6 +174,7 @@
   .cart-total-note { font-size: .75rem; color: var(--gray); font-style: italic; margin-top: .2rem; }
   .cart-total-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--navy); white-space: nowrap; }
 
+  /* FORM */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; }
   @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } }
   .form-group { display: flex; flex-direction: column; gap: .35rem; }
@@ -193,12 +205,16 @@
   .btn-full { width: 100%; justify-content: center; margin-top: 1rem; }
   .btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
 
+  /* ADMIN */
   .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
   @media (max-width: 700px) { .admin-grid { grid-template-columns: 1fr; } }
   .admin-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; }
   .admin-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 1.25rem; }
   .admin-items-list { display: flex; flex-direction: column; gap: .65rem; max-height: 440px; overflow-y: auto; }
-  .admin-item { background: var(--offwhite); border-radius: 8px; padding: .8rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+  .admin-item {
+    background: var(--offwhite); border-radius: 8px;
+    padding: .8rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  }
   .admin-item-info { flex: 1; min-width: 0; }
   .admin-item-name { font-weight: 600; font-size: .9rem; margin-bottom: .15rem; }
   .admin-item-meta { font-size: .78rem; color: var(--gray); }
@@ -206,12 +222,14 @@
   .pill-food  { background: var(--gold-pale); color: #92701a; }
   .pill-money { background: #dcfce7; color: #166534; }
 
+  /* LOG */
   .donations-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: var(--shadow); }
   .donations-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
   .donations-table th { background: var(--navy); color: var(--gold-lt); font-weight: 600; text-transform: uppercase; letter-spacing: .07em; font-size: .7rem; padding: .75rem 1rem; text-align: left; white-space: nowrap; }
   .donations-table td { padding: .75rem 1rem; border-bottom: 1px solid var(--gray-lt); vertical-align: top; }
   .donations-table tr:hover td { background: var(--gold-pale); }
 
+  /* TOAST */
   #toast {
     position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
     background: var(--navy); color: var(--white);
@@ -223,6 +241,7 @@
   }
   #toast.show { transform: translateY(0); opacity: 1; }
 
+  /* MODAL */
   .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 500;
     background: rgba(10,31,68,.75); backdrop-filter: blur(4px);
@@ -243,6 +262,7 @@
     border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: .87rem; line-height: 1.75;
   }
   .modal-check-box strong { color: var(--navy); }
+
   .flex-between { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 
   @media (max-width: 600px) {
@@ -255,6 +275,7 @@
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="header-brand">
     <div class="header-shield">⚔</div>
@@ -270,6 +291,7 @@
   </nav>
 </header>
 
+<!-- HERO -->
 <div class="hero">
   <div>
     <div class="hero-tag">🌺 Hilo High School • Class of 2025</div>
@@ -288,8 +310,10 @@
   </div>
 </div>
 
+<!-- MAIN -->
 <main>
 
+  <!-- ══ PARENT VIEW ══ -->
   <div class="view active" id="view-parent">
     <div class="flex-between">
       <div>
@@ -356,6 +380,7 @@
     </div>
   </div>
 
+  <!-- ══ ADMIN VIEW ══ -->
   <div class="view" id="view-admin">
     <div class="flex-between">
       <div>
@@ -409,6 +434,7 @@
     </div>
   </div>
 
+  <!-- ══ LOG VIEW ══ -->
   <div class="view" id="view-log">
     <div class="flex-between">
       <div>
@@ -435,6 +461,7 @@
 
 </main>
 
+<!-- SUCCESS MODAL -->
 <div class="modal-overlay" id="success-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -454,14 +481,20 @@
 
 <div id="toast"></div>
 
+<!-- ═══════════════════════════════════════════════════════
+     SUPABASE — replace the two values below with yours
+     ═══════════════════════════════════════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-  const SUPABASE_URL = 'https://mocntbmnkyuwlwqkjtvy.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY250Ym1ua3l1d2x3cWtqdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODA0NDMsImV4cCI6MjA4OTU1NjQ0M30.l8A47qe2prSAWtT_QDUe4eaPsiBL9Rw9PXzBHyly3nY';
+  // ── 🔑 YOUR SUPABASE CREDENTIALS ──────────────────────
+  const SUPABASE_URL = 'https://mocntbmnkyuwlwqkjtvy.supabase.co';  // ← replace this
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY250Ym1ua3l1d2x3cWtqdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODA0NDMsImV4cCI6MjA4OTU1NjQ0M30.l8A47qe2prSAWtT_QDUe4eaPsiBL9Rw9PXzBHyly3nY';                  // ← replace this
+  // ──────────────────────────────────────────────────────
 
   const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+  // ── STATE ──────────────────────────────────────────────
   let items = [
     { id:1,  name:'Pizza',                       type:'money', desc:'$20 covers the cost of one pie.',          amount:20, qty:20, donated:0, icon:'🍕' },
     { id:2,  name:'2-Liter Sodas',               type:'food',  desc:'Assorted flavors for the party.',           amount:0,  qty:15, donated:0, icon:'🥤' },
@@ -472,17 +505,20 @@
     { id:7,  name:'Candy',                       type:'food',  desc:'Assorted candy bags or bowls.',             amount:0,  qty:8,  donated:0, icon:'🍬' },
     { id:8,  name:'Ice Cream Toppings',          type:'food',  desc:'Sprinkles, syrups, nuts, whipped cream.',   amount:0,  qty:6,  donated:0, icon:'🍦' },
   ];
-  let nextId = 9;
-  let cart = {};
+  let nextId   = 9;
+  let cart     = {};
   let donations = [];
 
+  // ── LOAD DONATIONS FROM SUPABASE ──────────────────────
   async function loadDonations() {
     try {
       const { data, error } = await db
         .from('donations')
         .select('*')
         .order('created_at', { ascending: false });
+
       if (error) throw error;
+
       if (data) {
         donations = data.map(d => ({
           date:       new Date(d.created_at).toLocaleDateString('en-US'),
@@ -503,6 +539,7 @@
     }
   }
 
+  // ── SAVE DONATION TO SUPABASE ─────────────────────────
   async function saveDonation(record) {
     const { error } = await db.from('donations').insert({
       parent_name:  record.name,
@@ -517,12 +554,14 @@
     if (error) throw error;
   }
 
+  // ── ADMIN TYPE TOGGLE ─────────────────────────────────
   function toggleAmountField() {
     const type = document.getElementById('new-type').value;
     document.getElementById('amount-row').style.display = type === 'money' ? 'flex' : 'none';
   }
   toggleAmountField();
 
+  // ── VIEW SWITCHER ─────────────────────────────────────
   function switchView(v, btn) {
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -533,6 +572,7 @@
     if (v === 'parent') renderParentGrids();
   }
 
+  // ── RENDER PARENT GRIDS ───────────────────────────────
   function renderParentGrids() {
     renderGrid('money-grid', items.filter(i => i.type === 'money'));
     renderGrid('food-grid',  items.filter(i => i.type === 'food'));
@@ -576,6 +616,7 @@
     });
   }
 
+  // ── CART ──────────────────────────────────────────────
   function toggleCart(id) {
     if (cart[id]) delete cart[id];
     else cart[id] = 1;
@@ -594,11 +635,13 @@
     const body    = document.getElementById('cart-body');
     const totalEl = document.getElementById('cart-total');
     const ids     = Object.keys(cart).map(Number);
+
     if (!ids.length) {
       body.innerHTML = '<p class="cart-empty">No items selected yet — tap any item above to get started!</p>';
       totalEl.textContent = '$0.00';
       return;
     }
+
     let foodHtml = '', moneyHtml = '', moneyTotal = 0;
     ids.forEach(id => {
       const item = items.find(i => i.id === id);
@@ -634,6 +677,7 @@
         </div>`;
       }
     });
+
     let html = '';
     if (moneyHtml) html += `<div class="cart-section-lbl">💵 Monetary (pay by check)</div>${moneyHtml}`;
     if (foodHtml)  html += `<div class="cart-section-lbl" style="margin-top:.6rem;">🧺 Food Items (bring these)</div>${foodHtml}`;
@@ -641,6 +685,7 @@
     totalEl.textContent = '$' + moneyTotal.toFixed(2);
   }
 
+  // ── SUBMIT ────────────────────────────────────────────
   async function submitDonation() {
     const name  = document.getElementById('donor-name').value.trim();
     const email = document.getElementById('donor-email').value.trim();
@@ -683,6 +728,7 @@
     try {
       await saveDonation(record);
       donations.unshift(record);
+
       let sumHtml = `<strong>${name}</strong>`;
       if (record.student !== '—') sumHtml += ` (parent of ${record.student})`;
       sumHtml += '<br>';
@@ -692,6 +738,7 @@
       document.getElementById('modal-summary').innerHTML = sumHtml;
       document.getElementById('modal-check-box').style.display = moneyTotal > 0 ? 'block' : 'none';
       document.getElementById('success-modal').classList.add('open');
+
       cart = {};
       ['donor-name','student-name','donor-email','donor-phone','donor-message'].forEach(id => document.getElementById(id).value = '');
       updateStats();
@@ -705,6 +752,7 @@
     btn.textContent = '🎉 Submit Donation Pledge';
   }
 
+  // ── ADMIN ─────────────────────────────────────────────
   function addItem() {
     const name = document.getElementById('new-name').value.trim();
     const type = document.getElementById('new-type').value;
@@ -712,11 +760,13 @@
     const icon = document.getElementById('new-icon').value.trim() || (type === 'food' ? '🍽️' : '💵');
     const desc = document.getElementById('new-desc').value.trim();
     if (!name) { toast('Item name is required.'); return; }
+
     let amount = 0;
     if (type === 'money') {
       amount = parseFloat(document.getElementById('new-amount').value);
       if (!amount || amount < 1) { toast('Please enter a valid dollar amount.'); return; }
     }
+
     items.push({ id: nextId++, name, type, desc: desc || (type === 'food' ? 'Bring this item to Grad Nite.' : 'Monetary donation — pay by check.'), amount, qty, donated: 0, icon });
     document.getElementById('new-name').value   = '';
     document.getElementById('new-desc').value   = '';
@@ -755,10 +805,12 @@
           <button class="btn btn-danger" onclick="removeItem(${item.id})">Remove</button>
         </div>`).join('');
     }
+
     const moneyGoal   = items.filter(i => i.type === 'money').reduce((s,i) => s + i.amount * i.qty, 0);
     const moneyRaised = donations.reduce((s,d) => s + d.moneyTotal, 0);
     const foodNeeded  = items.filter(i => i.type === 'food').reduce((s,i) => s + i.qty, 0);
     const foodPledged = items.filter(i => i.type === 'food').reduce((s,i) => s + i.donated, 0);
+
     document.getElementById('admin-summary').innerHTML = [
       tile('🎯 Check Goal',   '$' + moneyGoal.toFixed(0)),
       tile('💰 Pledged',      '$' + moneyRaised.toFixed(0)),
@@ -776,6 +828,7 @@
     </div>`;
   }
 
+  // ── LOG ───────────────────────────────────────────────
   function renderLog() {
     const tbody = document.getElementById('donations-tbody');
     if (!donations.length) {
@@ -811,6 +864,7 @@
     a.click();
   }
 
+  // ── STATS ─────────────────────────────────────────────
   function updateStats() {
     const raised    = donations.reduce((s,d) => s + d.moneyTotal, 0);
     const foodCount = items.filter(i => i.type === 'food').reduce((s,i) => s + i.donated, 0);
@@ -822,6 +876,7 @@
     document.getElementById('overall-progress').style.width = pct + '%';
   }
 
+  // ── MODAL / TOAST ─────────────────────────────────────
   function closeModal() { document.getElementById('success-modal').classList.remove('open'); }
 
   let toastTimer;
@@ -833,6 +888,7 @@
     toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
   }
 
+  // ── INIT ──────────────────────────────────────────────
   renderParentGrids();
   updateStats();
   loadDonations();
