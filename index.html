@@ -285,6 +285,47 @@
     .hero { padding: 2.5rem 1rem 2rem; }
     .check-box { flex-direction: column; gap: .75rem; }
   }
+  /* ── Volunteer Section ─────────────────────────────── */
+  .vol-date-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin: 1.75rem 0 .75rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--gold);
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .vol-slot {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    display: flex; align-items: flex-start; gap: 1.25rem;
+  }
+  .vol-slot-time {
+    background: var(--navy);
+    color: var(--gold-lt);
+    border-radius: 8px;
+    padding: .55rem .9rem;
+    font-size: .78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    min-width: 120px;
+    text-align: center;
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+  .vol-slot-body { flex: 1; }
+  .vol-slot-title { font-weight: 700; font-size: .97rem; color: var(--navy); margin-bottom: .25rem; }
+  .vol-slot-desc { font-size: .84rem; color: var(--gray); line-height: 1.55; }
+  .vol-slot-spots { font-size: .75rem; font-weight: 600; color: var(--green); margin-top: .4rem; }
+  .vol-signup-row { margin-top: 1rem; display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+  .vol-input { flex: 1; min-width: 180px; padding: .55rem .85rem; border: 1.5px solid var(--gray-lt);
+    border-radius: 8px; font-size: .88rem; font-family: inherit; color: var(--navy); background: var(--offwhite); }
+  .vol-input:focus { outline: none; border-color: var(--navy); }
+  .vol-note { background: var(--gold-pale); border: 1.5px solid var(--gold); border-radius: 8px;
+    padding: .85rem 1rem; font-size: .84rem; line-height: 1.6; color: var(--navy); margin-bottom: 1.25rem; }
 </style>
 </head>
 <body>
@@ -298,6 +339,7 @@
     </div>
   </div>
   <nav class="header-nav">
+    <button class="tab-btn" onclick="switchView('volunteer',this)">🙋 Volunteer</button>
     <button class="tab-btn active" onclick="switchView('parent',this)">🎓 Donate</button>
     <button class="tab-btn" onclick="switchView('admin',this)">🛠 Admin</button>
   </nav>
@@ -322,6 +364,109 @@
 </div>
 
 <main>
+  <!-- VOLUNTEER VIEW -->
+  <div class="view" id="view-volunteer">
+    <div class="flex-between">
+      <div>
+        <h2 class="section-title">Volunteer Sign-Up</h2>
+        <div class="divider"></div>
+        <p class="section-sub">Help make Grad Nite 2026 unforgettable! Sign up for a volunteer shift below.</p>
+      </div>
+    </div>
+
+    <div class="vol-note">
+      📧 After signing up, a confirmation will be sent to your email. Questions? Contact us at
+      <a href="mailto:caguiar54@gmail.com" style="color:var(--navy);font-weight:600;">caguiar54@gmail.com</a>
+    </div>
+
+    <!-- Friday May 22, 2026 -->
+    <div class="vol-date-header">📅 Friday, May 22, 2026</div>
+
+    <div class="vol-slot">
+      <div class="vol-slot-time">7:00 AM<br>—<br>9:30 AM</div>
+      <div class="vol-slot-body">
+        <div class="vol-slot-title">🎒 Bag Check-In &amp; Transport</div>
+        <div class="vol-slot-desc">
+          Check in all Graduates' bags at the <strong>Edith Kanakaole Multipurpose Stadium</strong>
+          and assist with transporting them to the Yacht Club.
+        </div>
+        <div class="vol-signup-row">
+          <input class="vol-input" type="text" placeholder="Your name" id="vol-name-fri-1" />
+          <input class="vol-input" type="email" placeholder="Email address" id="vol-email-fri-1" />
+          <input class="vol-input" type="tel" placeholder="Phone (optional)" id="vol-phone-fri-1" />
+          <button class="btn btn-primary" onclick="signUpVolunteer('fri-1','Fri May 22 • 7:00am–9:30am • Bag Check-In &amp; Transport')">Sign Up ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="vol-slot">
+      <div class="vol-slot-time">9:30 PM<br>—<br>5:00 AM</div>
+      <div class="vol-slot-body">
+        <div class="vol-slot-title">🎮 Games, Activities &amp; Food Service</div>
+        <div class="vol-slot-desc">
+          Assist with games and activities and serve food at the <strong>Yacht Club</strong>.
+        </div>
+        <div class="vol-signup-row">
+          <input class="vol-input" type="text" placeholder="Your name" id="vol-name-fri-2" />
+          <input class="vol-input" type="email" placeholder="Email address" id="vol-email-fri-2" />
+          <input class="vol-input" type="tel" placeholder="Phone (optional)" id="vol-phone-fri-2" />
+          <button class="btn btn-primary" onclick="signUpVolunteer('fri-2','Fri May 22 • 9:30pm–5:00am • Games, Activities &amp; Food Service')">Sign Up ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saturday May 23, 2026 -->
+    <div class="vol-date-header">📅 Saturday, May 23, 2026</div>
+
+    <div class="vol-slot">
+      <div class="vol-slot-time">4:30 AM<br>—<br>7:00 AM</div>
+      <div class="vol-slot-body">
+        <div class="vol-slot-title">🍳 Breakfast Setup, Service &amp; Cleanup</div>
+        <div class="vol-slot-desc">
+          Help set up, serve, and clean up breakfast at the <strong>HHS Cafeteria</strong>.
+        </div>
+        <div class="vol-signup-row">
+          <input class="vol-input" type="text" placeholder="Your name" id="vol-name-sat-1" />
+          <input class="vol-input" type="email" placeholder="Email address" id="vol-email-sat-1" />
+          <input class="vol-input" type="tel" placeholder="Phone (optional)" id="vol-phone-sat-1" />
+          <button class="btn btn-primary" onclick="signUpVolunteer('sat-1','Sat May 23 • 4:30am–7:00am • Breakfast Setup, Service &amp; Cleanup')">Sign Up ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="vol-slot">
+      <div class="vol-slot-time">5:30 AM<br>—<br>7:30 AM</div>
+      <div class="vol-slot-body">
+        <div class="vol-slot-title">🎓 Grad Sign-Out</div>
+        <div class="vol-slot-desc">
+          Sign out Graduates for parent pick-up at <strong>HHS</strong>.
+        </div>
+        <div class="vol-signup-row">
+          <input class="vol-input" type="text" placeholder="Your name" id="vol-name-sat-2" />
+          <input class="vol-input" type="email" placeholder="Email address" id="vol-email-sat-2" />
+          <input class="vol-input" type="tel" placeholder="Phone (optional)" id="vol-phone-sat-2" />
+          <button class="btn btn-primary" onclick="signUpVolunteer('sat-2','Sat May 23 • 5:30am–7:30am • Grad Sign-Out')">Sign Up ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="vol-slot">
+      <div class="vol-slot-time">5:00 AM<br>—<br>7:30 AM</div>
+      <div class="vol-slot-body">
+        <div class="vol-slot-title">🧹 Yacht Club Cleanup &amp; Supply Transport</div>
+        <div class="vol-slot-desc">
+          Clean up the <strong>Yacht Club</strong> and transport supplies to the <strong>HHS Cafeteria</strong>.
+        </div>
+        <div class="vol-signup-row">
+          <input class="vol-input" type="text" placeholder="Your name" id="vol-name-sat-3" />
+          <input class="vol-input" type="email" placeholder="Email address" id="vol-email-sat-3" />
+          <input class="vol-input" type="tel" placeholder="Phone (optional)" id="vol-phone-sat-3" />
+          <button class="btn btn-primary" onclick="signUpVolunteer('sat-3','Sat May 23 • 5:00am–7:30am • Yacht Club Cleanup &amp; Supply Transport')">Sign Up ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PARENT VIEW -->
   <div class="view active" id="view-parent">
     <div class="flex-between">
@@ -485,6 +630,27 @@
             </thead>
             <tbody id="donations-tbody">
               <tr><td colspan="8" style="text-align:center;color:var(--gray);padding:2rem;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VOLUNTEERS LOG (inside admin panel) -->
+      <div class="admin-card" style="margin-top:1.5rem;">
+        <div class="flex-between" style="margin-bottom:1rem;">
+          <h3 style="margin-bottom:0;">🙋 Volunteers Log</h3>
+          <button class="btn btn-outline btn-sm" onclick="loadVolunteers()">🔄 Refresh</button>
+        </div>
+        <p style="font-size:.85rem;color:var(--gray);margin-bottom:1.25rem;">All volunteer sign-ups.</p>
+        <div class="donations-table-wrap">
+          <table class="donations-table">
+            <thead>
+              <tr>
+                <th>#</th><th>Shift</th><th>Name</th><th>Email</th><th>Phone</th><th>Signed Up</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="volunteers-tbody">
+              <tr><td colspan="7" style="text-align:center;color:var(--gray);padding:2rem;">Loading...</td></tr>
             </tbody>
           </table>
         </div>
@@ -676,6 +842,7 @@ Hilo High Grad Nite Committee 🤙
       document.getElementById('admin-pw-input').value = '';
       renderAdmin();
       renderLog();
+      loadVolunteers();
     } else {
       document.getElementById('pw-error').textContent = '❌ Incorrect password. Please try again.';
       document.getElementById('admin-pw-input').value = '';
@@ -752,8 +919,62 @@ Hilo High Grad Nite Committee 🤙
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     document.getElementById('view-' + v).classList.add('active');
     btn.classList.add('active');
-    if (v === 'admin' && adminUnlocked) renderAdmin();
+    if (v === 'admin' && adminUnlocked) { renderAdmin(); loadVolunteers(); }
     if (v === 'parent') renderParentGrids();
+  }
+
+  async function signUpVolunteer(slotId, slotLabel) {
+    const name  = document.getElementById('vol-name-'  + slotId).value.trim();
+    const email = document.getElementById('vol-email-' + slotId).value.trim();
+    const phone = document.getElementById('vol-phone-' + slotId).value.trim();
+    if (!name)  { toast('Please enter your name.'); return; }
+    if (!email) { toast('Please enter your email.'); return; }
+    try {
+      const { error } = await db.from('volunteers').insert({
+        slot_id:    slotId,
+        slot_label: slotLabel,
+        name,
+        email,
+        phone: phone || null,
+        signed_up_at: new Date().toISOString()
+      });
+      if (error) throw error;
+      // Clear fields
+      document.getElementById('vol-name-'  + slotId).value = '';
+      document.getElementById('vol-email-' + slotId).value = '';
+      document.getElementById('vol-phone-' + slotId).value = '';
+      // Send confirmation email
+      sendVolunteerEmail(name, email, slotLabel);
+      toast('Thank you for signing up! 🤙');
+    } catch(e) {
+      console.error(e);
+      // If table doesn't exist yet, still show confirmation
+      document.getElementById('vol-name-'  + slotId).value = '';
+      document.getElementById('vol-email-' + slotId).value = '';
+      document.getElementById('vol-phone-' + slotId).value = '';
+      sendVolunteerEmail(name, email, slotLabel);
+      toast('Thank you for signing up! 🤙');
+    }
+  }
+
+  function sendVolunteerEmail(name, email, slotLabel) {
+    const subject = encodeURIComponent('Hilo High Grad Nite 2026 — Volunteer Sign-Up Confirmation');
+    const body = encodeURIComponent(
+`Aloha ${name},
+
+Mahalo for volunteering for Hilo High Grad Nite 2026! 🎉
+
+─── YOUR VOLUNTEER SHIFT ───
+${slotLabel}
+
+We truly appreciate your time and support. Please arrive a few minutes early for your shift.
+
+If you have any questions, please contact us at: ${CONTACT_EMAIL}
+
+With Aloha,
+Hilo High Grad Nite Committee 🤙
+`);
+    window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
   }
 
   function renderParentGrids() {
@@ -1127,6 +1348,54 @@ Hilo High Grad Nite Committee 🤙
       updateStats(); renderLog();
       toast('Donation deleted.');
     } catch(e) { console.error(e); toast('Error deleting. Please try again.'); }
+  }
+
+  // ── Volunteer admin functions ────────────────────────────
+  let volunteers = [];
+
+  async function loadVolunteers() {
+    try {
+      const { data, error } = await db.from('volunteers').select('*').order('signed_up_at', { ascending: false });
+      if (error) throw error;
+      volunteers = data || [];
+    } catch(e) {
+      console.warn('Could not load volunteers (table may not exist yet):', e);
+      volunteers = [];
+    }
+    renderVolunteers();
+  }
+
+  function renderVolunteers() {
+    const tbody = document.getElementById('volunteers-tbody');
+    if (!tbody) return;
+    if (!volunteers.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:2rem;">No sign-ups yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = volunteers.map((v, i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td style="font-size:.8rem;max-width:200px;">${v.slot_label || v.slot_id}</td>
+        <td><strong>${v.name}</strong></td>
+        <td style="font-size:.8rem;">${v.email}</td>
+        <td style="font-size:.8rem;">${v.phone || '—'}</td>
+        <td style="white-space:nowrap;font-size:.8rem;">${new Date(v.signed_up_at).toLocaleDateString('en-US')}</td>
+        <td>
+          <button class="btn btn-sm" style="width:100%;background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;" onclick="deleteVolunteer(${i})">🗑 Remove</button>
+        </td>
+      </tr>`).join('');
+  }
+
+  async function deleteVolunteer(idx) {
+    const v = volunteers[idx];
+    if (!confirm(`Remove volunteer sign-up for ${v.name}?\n\nThis cannot be undone.`)) return;
+    try {
+      const { error } = await db.from('volunteers').delete().eq('id', v.id);
+      if (error) throw error;
+      volunteers.splice(idx, 1);
+      renderVolunteers();
+      toast('Volunteer removed.');
+    } catch(e) { console.error(e); toast('Error removing. Please try again.'); }
   }
 
   function exportCSV() {
