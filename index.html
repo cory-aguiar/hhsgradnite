@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Hilo High Grad Nite – Donations</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
     --navy:    #0a1f44;
@@ -355,6 +356,9 @@
     <div class="items-grid" id="other-grid"></div>
     <div class="cart-section">
       <div class="cart-title">🛒 Your Donation Cart</div>
+      <div style="background:var(--gold-pale);border:1.5px solid var(--gold);border-radius:8px;padding:.85rem 1rem;margin-bottom:1rem;font-size:.85rem;line-height:1.6;color:var(--navy);">
+        📦 <strong>Drop-Off Reminder:</strong> All donations can be dropped off the morning of Commencement practice. Look for the donation drop-off signs in front of the <strong>Edith Kanakaole Multipurpose Stadium</strong>.
+      </div>
       <div id="cart-body"><p class="cart-empty">No items selected yet — tap any item above to add it!</p></div>
       <div class="cart-total">
         <div>
@@ -476,7 +480,7 @@
             <thead>
               <tr>
                 <th>#</th><th>Date</th><th>Parent</th><th>Student</th>
-                <th>Food Items</th><th>Monetary Items</th><th>Check Amount</th><th>Message</th>
+                <th>Food Items</th><th>Monetary Items</th><th>Check Amount</th><th>Message</th><th>Actions</th>
               </tr>
             </thead>
             <tbody id="donations-tbody">
@@ -496,14 +500,18 @@
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="success-icon">🎉</div>
     <h2>Mahalo for Your Support!</h2>
-    <p style="color:var(--gray);margin:.4rem 0 0;">Your pledge is recorded. See instructions below.</p>
+    <p style="color:var(--gray);margin:.4rem 0 0;">Your pledge is recorded. A confirmation email has been sent to you.</p>
     <div id="modal-summary" style="background:var(--offwhite);border-radius:8px;padding:1rem 1.1rem;font-size:.87rem;margin:1rem 0;line-height:1.8;"></div>
+    <div style="background:#e8f5e9;border:1.5px solid #16a34a;border-radius:8px;padding:.85rem 1rem;font-size:.83rem;margin-bottom:1rem;line-height:1.6;color:#14532d;">
+      📦 <strong>Drop-Off:</strong> All donations can be dropped off the morning of Commencement practice. Look for the donation drop-off signs in front of the <strong>Edith Kanakaole Multipurpose Stadium</strong>.
+    </div>
     <div class="modal-check-box" id="modal-check-box">
       ✉️ <strong>Please mail your check to:</strong><br>
       Make check payable to <strong>Hilo High Grad Nite</strong><br>
       Hilo High School, Attn: Grad Nite Committee<br>
       556 Waianuenue Avenue, Hilo, HI 96720
     </div>
+    <p style="font-size:.78rem;color:var(--gray);text-align:center;margin:.75rem 0 .5rem;">Questions? Email us at <a href="mailto:caguiar54@gmail.com" style="color:var(--navy);font-weight:600;">caguiar54@gmail.com</a></p>
     <button class="btn btn-primary btn-full" onclick="closeModal()">Done — Go Vikings! 🤐</button>
   </div>
 </div>
@@ -541,6 +549,53 @@
   </div>
 </div>
 
+<!-- EDIT DONATION MODAL -->
+<div class="edit-modal-overlay" id="edit-donation-modal">
+  <div class="edit-modal" style="max-width:540px;">
+    <button class="modal-close" onclick="closeEditDonationModal()">✕</button>
+    <h3>✏️ Edit Donation</h3>
+    <input type="hidden" id="edit-don-idx" />
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+      <div class="form-group" style="margin-bottom:.75rem;">
+        <label>Parent / Guardian Name *</label>
+        <input type="text" id="edit-don-name" placeholder="Jane Smith" />
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem;">
+        <label>Student's Name</label>
+        <input type="text" id="edit-don-student" placeholder="Alex Smith" />
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem;">
+        <label>Email *</label>
+        <input type="email" id="edit-don-email" placeholder="jane@email.com" />
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem;">
+        <label>Phone</label>
+        <input type="tel" id="edit-don-phone" placeholder="(808) 555-0123" />
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem;grid-column:1/-1;">
+        <label>Food Items (comma separated)</label>
+        <input type="text" id="edit-don-food" placeholder="🍿 Chips & Snacks ×2, 🍬 Candy ×1" />
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem;grid-column:1/-1;">
+        <label>Monetary Items (comma separated)</label>
+        <input type="text" id="edit-don-money" placeholder="🍕 Pizza ×2 ($40.00)" />
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem;">
+        <label>Total Check Amount ($)</label>
+        <input type="number" id="edit-don-total" min="0" step="0.01" placeholder="0.00" />
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem;">
+        <label>Message</label>
+        <input type="text" id="edit-don-message" placeholder="Go Vikings!" />
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:.75rem;">
+      <button id="save-don-btn" class="btn btn-navy btn-full" style="margin-top:0" onclick="saveEditDonation()">Save Changes</button>
+      <button class="btn btn-outline btn-full" style="margin-top:0" onclick="closeEditDonationModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -548,8 +603,68 @@
   const SUPABASE_URL = 'https://mocntbmnkyuwlwqkjtvy.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY250Ym1ua3l1d2x3cWtqdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODA0NDMsImV4cCI6MjA4OTU1NjQ0M30.l8A47qe2prSAWtT_QDUe4eaPsiBL9Rw9PXzBHyly3nY';
   const ADMIN_PASSWORD = '2026HHSgn!';
+  const CONTACT_EMAIL  = 'caguiar54@gmail.com';
   const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   let adminUnlocked = false;
+
+  // ── Confirmation e-mail via EmailJS ──────────────────────────────────────
+  // To activate: create a free EmailJS account at https://emailjs.com,
+  // set up a service + template, then replace the three placeholders below.
+  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_abc123'
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xyz456'
+  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abcDEFghiJKL'
+
+  async function sendConfirmationEmail(record, moneyItems, foodItems) {
+    const pledgeSummary = [
+      moneyItems.length ? '💵 Monetary:\n' + moneyItems.join('\n') : '',
+      foodItems.length  ? '🧺 Food Items (bring these):\n' + foodItems.join('\n') : '',
+      record.moneyTotal > 0 ? '\nTotal Check Amount: $' + record.moneyTotal.toFixed(2) : ''
+    ].filter(Boolean).join('\n\n');
+
+    // Try EmailJS first (requires setup above)
+    if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
+      try {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_name:       record.name,
+          to_email:      record.email,
+          student_name:  record.student !== '—' ? record.student : '',
+          pledge_summary: pledgeSummary,
+          money_total:   record.moneyTotal > 0 ? '$' + record.moneyTotal.toFixed(2) : 'N/A (food items only)',
+          contact_email: CONTACT_EMAIL,
+        });
+        return;
+      } catch(e) { console.warn('EmailJS failed, falling back to mailto:', e); }
+    }
+
+    // Fallback: open a pre-filled mailto so the organizer's email client sends it
+    const subject = encodeURIComponent('Hilo High Grad Nite 2026 — Donation Pledge Confirmation');
+    const body = encodeURIComponent(
+`Aloha ${record.name},
+
+Mahalo for your generous support of Hilo High Grad Nite 2026! 🎉 Your donation pledge has been recorded.
+
+─── YOUR PLEDGE SUMMARY ───
+${pledgeSummary}
+
+─── DROP-OFF INFORMATION ───
+All donations can be dropped off the morning of Commencement practice.
+Look for the donation drop-off signs in front of the
+Edith Kanakaole Multipurpose Stadium.
+
+${record.moneyTotal > 0 ? `─── CHECK PAYMENT ───
+Please make your check payable to: Hilo High Grad Nite
+Mail or bring to: Hilo High School, Attn: Grad Nite Committee
+556 Waianuenue Avenue, Hilo, HI 96720
+
+` : ''}If you have any questions, please contact us at: ${CONTACT_EMAIL}
+
+With Aloha,
+Hilo High Grad Nite Committee 🤙
+`);
+    window.open(`mailto:${record.email}?subject=${subject}&body=${body}`, '_blank');
+  }
+
 
   function checkAdminPassword() {
     const input = document.getElementById('admin-pw-input').value;
@@ -594,6 +709,7 @@
       if (error) throw error;
       if (data) {
         donations = data.map(d => ({
+          id:         d.id,
           date:       new Date(d.created_at).toLocaleDateString('en-US'),
           name:       d.parent_name,
           student:    d.student_name || '—',
@@ -611,7 +727,7 @@
   }
 
   async function saveDonation(record) {
-    const { error } = await db.from('donations').insert({
+    const { data, error } = await db.from('donations').insert({
       parent_name:  record.name,
       student_name: record.student !== '—' ? record.student : null,
       email:        record.email,
@@ -620,8 +736,9 @@
       money_items:  record.moneyItems !== '—' ? record.moneyItems : null,
       check_amount: record.moneyTotal,
       message:      record.message !== '—' ? record.message : null
-    });
+    }).select('id').single();
     if (error) throw error;
+    if (data) record.id = data.id;
   }
 
   function toggleAmountField() {
@@ -797,6 +914,8 @@
       document.getElementById('modal-summary').innerHTML = sumHtml;
       document.getElementById('modal-check-box').style.display = moneyTotal > 0 ? 'block' : 'none';
       document.getElementById('success-modal').classList.add('open');
+      // Send confirmation email to donor
+      sendConfirmationEmail(record, moneyItems, foodItems);
       cart = {};
       ['donor-name','student-name','donor-email','donor-phone','donor-message'].forEach(id => document.getElementById(id).value = '');
       updateStats(); renderParentGrids();
@@ -924,7 +1043,7 @@
   function renderLog() {
     const tbody = document.getElementById('donations-tbody');
     if (!donations.length) {
-      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--gray);padding:2rem;">No donations yet.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--gray);padding:2rem;">No donations yet.</td></tr>';
       return;
     }
     tbody.innerHTML = donations.map((d,i) => `
@@ -937,7 +1056,77 @@
         <td style="font-size:.8rem;max-width:180px;">${d.moneyItems}</td>
         <td style="white-space:nowrap"><strong>${d.moneyTotal > 0 ? '$'+d.moneyTotal.toFixed(2) : '—'}</strong></td>
         <td style="font-size:.8rem;color:var(--gray);font-style:italic;max-width:150px;">${d.message}</td>
+        <td style="white-space:nowrap;">
+          <button class="btn btn-outline btn-sm" style="margin-bottom:.3rem;width:100%;" onclick="openEditDonation(${i})">✏️ Edit</button>
+          <button class="btn btn-sm" style="width:100%;background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;" onclick="deleteDonation(${i})">🗑 Delete</button>
+        </td>
       </tr>`).join('');
+  }
+
+  function openEditDonation(idx) {
+    const d = donations[idx];
+    document.getElementById('edit-don-idx').value      = idx;
+    document.getElementById('edit-don-name').value     = d.name;
+    document.getElementById('edit-don-student').value  = d.student !== '—' ? d.student : '';
+    document.getElementById('edit-don-email').value    = d.email;
+    document.getElementById('edit-don-phone').value    = d.phone  !== '—' ? d.phone  : '';
+    document.getElementById('edit-don-food').value     = d.foodItems  !== '—' ? d.foodItems  : '';
+    document.getElementById('edit-don-money').value    = d.moneyItems !== '—' ? d.moneyItems : '';
+    document.getElementById('edit-don-total').value    = d.moneyTotal > 0 ? d.moneyTotal : '';
+    document.getElementById('edit-don-message').value  = d.message !== '—' ? d.message : '';
+    document.getElementById('edit-donation-modal').classList.add('open');
+  }
+
+  function closeEditDonationModal() {
+    document.getElementById('edit-donation-modal').classList.remove('open');
+  }
+
+  async function saveEditDonation() {
+    const idx  = parseInt(document.getElementById('edit-don-idx').value);
+    const d    = donations[idx];
+    const updated = {
+      parent_name:  document.getElementById('edit-don-name').value.trim(),
+      student_name: document.getElementById('edit-don-student').value.trim() || null,
+      email:        document.getElementById('edit-don-email').value.trim(),
+      phone:        document.getElementById('edit-don-phone').value.trim() || null,
+      food_items:   document.getElementById('edit-don-food').value.trim()  || null,
+      money_items:  document.getElementById('edit-don-money').value.trim() || null,
+      check_amount: parseFloat(document.getElementById('edit-don-total').value) || 0,
+      message:      document.getElementById('edit-don-message').value.trim() || null,
+    };
+    if (!updated.parent_name || !updated.email) { toast('Name and email are required.'); return; }
+    const btn = document.getElementById('save-don-btn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+    try {
+      const { error } = await db.from('donations').update(updated).eq('id', d.id);
+      if (error) throw error;
+      donations[idx] = { ...d,
+        name:       updated.parent_name,
+        student:    updated.student_name || '—',
+        email:      updated.email,
+        phone:      updated.phone        || '—',
+        foodItems:  updated.food_items   || '—',
+        moneyItems: updated.money_items  || '—',
+        moneyTotal: updated.check_amount,
+        message:    updated.message      || '—',
+      };
+      closeEditDonationModal();
+      updateStats(); renderLog();
+      toast('Donation updated ✓');
+    } catch(e) { console.error(e); toast('Error saving. Please try again.'); }
+    btn.disabled = false; btn.textContent = 'Save Changes';
+  }
+
+  async function deleteDonation(idx) {
+    const d = donations[idx];
+    if (!confirm(`Delete donation from ${d.name}?\n\nThis cannot be undone.`)) return;
+    try {
+      const { error } = await db.from('donations').delete().eq('id', d.id);
+      if (error) throw error;
+      donations.splice(idx, 1);
+      updateStats(); renderLog();
+      toast('Donation deleted.');
+    } catch(e) { console.error(e); toast('Error deleting. Please try again.'); }
   }
 
   function exportCSV() {
