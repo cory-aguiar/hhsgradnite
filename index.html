@@ -103,8 +103,12 @@
   .item-icon { font-size: 1.8rem; }
   .item-tags { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
   .item-type-tag { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: .18rem .55rem; border-radius: 20px; }
-  .type-food  { background: rgba(201,162,39,.25); color: var(--gold-lt); }
-  .type-money { background: rgba(22,163,74,.2);   color: #4ade80; }
+  .type-money    { background: rgba(22,163,74,.2);   color: #4ade80; }
+  .type-food     { background: rgba(239,68,68,.2);   color: #fca5a5; }
+  .type-drinks   { background: rgba(59,130,246,.2);  color: #93c5fd; }
+  .type-desserts { background: rgba(217,70,239,.2);  color: #e879f9; }
+  .type-paper    { background: rgba(251,191,36,.25); color: var(--gold-lt); }
+  .type-other    { background: rgba(148,163,184,.2); color: #cbd5e1; }
   .item-badge { font-size: .62rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; padding: .17rem .55rem; border-radius: 20px; }
   .badge-open { background: rgba(255,255,255,.12); color: rgba(255,255,255,.7); }
   .badge-full { background: rgba(22,163,74,.25); color: #4ade80; }
@@ -200,8 +204,12 @@
   .admin-item-name { font-weight: 600; font-size: .9rem; margin-bottom: .15rem; }
   .admin-item-meta { font-size: .78rem; color: var(--gray); }
   .type-pill { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; padding: .15rem .5rem; border-radius: 20px; margin-right: .35rem; }
-  .pill-food  { background: var(--gold-pale); color: #92701a; }
-  .pill-money { background: #dcfce7; color: #166534; }
+  .pill-money    { background: #dcfce7; color: #166534; }
+  .pill-food     { background: #fee2e2; color: #991b1b; }
+  .pill-drinks   { background: #dbeafe; color: #1e40af; }
+  .pill-desserts { background: #fae8ff; color: #86198f; }
+  .pill-paper    { background: var(--gold-pale); color: #92701a; }
+  .pill-other    { background: #f1f5f9; color: #475569; }
 
   /* EDIT MODAL */
   .edit-modal-overlay {
@@ -319,7 +327,7 @@
       <div>
         <h2 class="section-title">Choose How to Contribute</h2>
         <div class="divider"></div>
-        <p class="section-sub">Select items below — food donations you bring, monetary donations you send by check.</p>
+        <p class="section-sub">Select items below — bring food, drinks, desserts, and paper goods, or pledge a monetary donation by check.</p>
       </div>
     </div>
     <div class="check-box">
@@ -333,10 +341,18 @@
         </p>
       </div>
     </div>
-    <div class="category-label">🍕 Monetary Donations — Pay by Check</div>
+    <div class="category-label">💵 Monetary Donations — Pay by Check</div>
     <div class="items-grid" id="money-grid"></div>
-    <div class="category-label">🧺 Food Item Donations — Bring the Item</div>
+    <div class="category-label">🍽️ Food Items — Bring the Item</div>
     <div class="items-grid" id="food-grid"></div>
+    <div class="category-label">🥤 Drinks — Bring the Item</div>
+    <div class="items-grid" id="drinks-grid"></div>
+    <div class="category-label">🍰 Desserts — Bring the Item</div>
+    <div class="items-grid" id="desserts-grid"></div>
+    <div class="category-label">🧻 Paper Goods — Bring the Item</div>
+    <div class="items-grid" id="paper-grid"></div>
+    <div class="category-label">📦 Other — Bring the Item</div>
+    <div class="items-grid" id="other-grid"></div>
     <div class="cart-section">
       <div class="cart-title">🛒 Your Donation Cart</div>
       <div id="cart-body"><p class="cart-empty">No items selected yet — tap any item above to add it!</p></div>
@@ -410,8 +426,12 @@
           <div class="form-group" style="margin-bottom:.85rem;">
             <label>Type *</label>
             <select id="new-type" onchange="toggleAmountField()">
-              <option value="money">💵 Monetary — parent pays by check</option>
-              <option value="food">🧺 Food Item — parent brings the item</option>
+              <option value="money">💵 Monetary Donation — parent pays by check</option>
+              <option value="food">🍽️ Food Items — parent brings the item</option>
+              <option value="drinks">🥤 Drinks — parent brings the item</option>
+              <option value="desserts">🍰 Desserts — parent brings the item</option>
+              <option value="paper">🧻 Paper Goods — parent brings the item</option>
+              <option value="other">📦 Other — parent brings the item</option>
             </select>
           </div>
           <div class="form-group" style="margin-bottom:.85rem;">
@@ -555,14 +575,14 @@
   }
 
   let items = [
-    { id:1,  name:'Pizza',                       type:'money', desc:'$20 covers the cost of one pie.',          amount:20, qty:20, donated:0, icon:'🍕' },
-    { id:2,  name:'2-Liter Sodas',               type:'food',  desc:'Assorted flavors for the party.',           amount:0,  qty:15, donated:0, icon:'🥤' },
-    { id:3,  name:'Chips & Snacks',              type:'food',  desc:'Bags of chips, pretzels, or popcorn.',      amount:0,  qty:10, donated:0, icon:'🍿' },
-    { id:4,  name:'Paper Plates, Cups & Napkins',type:'food',  desc:'Any brand/quantity pack.',                  amount:0,  qty:8,  donated:0, icon:'🧻' },
-    { id:5,  name:'Desserts / Cookies',          type:'food',  desc:'Store-bought or homemade sweet treats.',    amount:0,  qty:10, donated:0, icon:'🍪' },
-    { id:6,  name:'Water Cases',                 type:'food',  desc:'24-pack bottled water.',                    amount:0,  qty:12, donated:0, icon:'💧' },
-    { id:7,  name:'Candy',                       type:'food',  desc:'Assorted candy bags or bowls.',             amount:0,  qty:8,  donated:0, icon:'🍬' },
-    { id:8,  name:'Ice Cream Toppings',          type:'food',  desc:'Sprinkles, syrups, nuts, whipped cream.',   amount:0,  qty:6,  donated:0, icon:'🍦' },
+    { id:1,  name:'Pizza',                       type:'money',    desc:'$20 covers the cost of one pie.',         amount:20, qty:20, donated:0, icon:'🍕' },
+    { id:2,  name:'Chips & Snacks',              type:'food',     desc:'Bags of chips, pretzels, or popcorn.',    amount:0,  qty:10, donated:0, icon:'🍿' },
+    { id:3,  name:'Candy',                       type:'food',     desc:'Assorted candy bags or bowls.',           amount:0,  qty:8,  donated:0, icon:'🍬' },
+    { id:4,  name:'2-Liter Sodas',               type:'drinks',   desc:'Assorted flavors for the party.',         amount:0,  qty:15, donated:0, icon:'🥤' },
+    { id:5,  name:'Water Cases',                 type:'drinks',   desc:'24-pack bottled water.',                  amount:0,  qty:12, donated:0, icon:'💧' },
+    { id:6,  name:'Desserts / Cookies',          type:'desserts', desc:'Store-bought or homemade sweet treats.',  amount:0,  qty:10, donated:0, icon:'🍪' },
+    { id:7,  name:'Ice Cream Toppings',          type:'desserts', desc:'Sprinkles, syrups, nuts, whipped cream.', amount:0,  qty:6,  donated:0, icon:'🍦' },
+    { id:8,  name:'Paper Plates, Cups & Napkins',type:'paper',    desc:'Any brand/quantity pack.',                amount:0,  qty:8,  donated:0, icon:'🧻' },
   ];
   let nextId = 9;
   let cart = {};
@@ -620,8 +640,12 @@
   }
 
   function renderParentGrids() {
-    renderGrid('money-grid', items.filter(i => i.type === 'money'));
-    renderGrid('food-grid',  items.filter(i => i.type === 'food'));
+    renderGrid('money-grid',    items.filter(i => i.type === 'money'));
+    renderGrid('food-grid',     items.filter(i => i.type === 'food'));
+    renderGrid('drinks-grid',   items.filter(i => i.type === 'drinks'));
+    renderGrid('desserts-grid', items.filter(i => i.type === 'desserts'));
+    renderGrid('paper-grid',    items.filter(i => i.type === 'paper'));
+    renderGrid('other-grid',    items.filter(i => i.type === 'other'));
     renderCart();
   }
 
@@ -647,7 +671,7 @@
         <div class="item-card-top">
           <div class="item-icon">${item.icon}</div>
           <div class="item-tags">
-            <span class="item-type-tag ${item.type === 'food' ? 'type-food' : 'type-money'}">${item.type === 'food' ? '🧺 Bring Item' : '💵 By Check'}</span>
+            <span class="item-type-tag type-${item.type}">${{money:'💵 By Check',food:'🍽️ Food',drinks:'🥤 Drinks',desserts:'🍰 Desserts',paper:'🧻 Paper Goods',other:'📦 Other'}[item.type]}</span>
             <span class="item-badge ${isFull ? 'badge-full' : 'badge-open'}">${isFull ? '✓ Filled' : (item.qty - item.donated) + ' still needed'}</span>
           </div>
         </div>
@@ -690,7 +714,7 @@
       const item = items.find(i => i.id === id);
       if (!item) return;
       const qty = cart[id];
-      if (item.type === 'food') {
+      if (item.type !== 'money') {
         foodHtml += `<div class="cart-item">
           <div class="cart-item-left">
             <div class="cart-item-name">${item.icon} ${item.name}</div>
@@ -742,7 +766,7 @@
       if (!item) return;
       const qty = cart[id];
       item.donated = Math.min(item.qty, item.donated + qty);
-      if (item.type === 'food') {
+      if (item.type !== 'money') {
         foodItems.push(`${item.icon} ${item.name} ×${qty}`);
       } else {
         const sub = item.amount * qty;
@@ -785,7 +809,9 @@
     const type = document.getElementById('new-type').value;
     const qty  = parseInt(document.getElementById('new-qty').value) || 1;
     const rawIcon = document.getElementById('new-icon').value.trim();
-    const icon = rawIcon || (type === 'food' ? '🍽️' : '💵');
+    const iconDefaults = {money:'💵',food:'🍽️',drinks:'🥤',desserts:'🍰',paper:'🧻',other:'📦'};
+    const descDefaults  = {money:'Monetary donation — pay by check.',food:'Bring this item to Grad Nite.',drinks:'Bring drinks to Grad Nite.',desserts:'Bring desserts to Grad Nite.',paper:'Bring paper goods to Grad Nite.',other:'Bring this item to Grad Nite.'};
+    const icon = rawIcon || iconDefaults[type] || '📦';
     const desc = document.getElementById('new-desc').value.trim();
     if (!name) { toast('Item name is required.'); return; }
     let amount = 0;
@@ -793,7 +819,7 @@
       amount = parseFloat(document.getElementById('new-amount').value);
       if (!amount || amount < 1) { toast('Please enter a valid dollar amount.'); return; }
     }
-    items.push({ id: nextId++, name, type, desc: desc || (type === 'food' ? 'Bring this item to Grad Nite.' : 'Monetary donation — pay by check.'), amount, qty, donated: 0, icon });
+    items.push({ id: nextId++, name, type, desc: desc || descDefaults[type] || 'Bring this item to Grad Nite.', amount, qty, donated: 0, icon });
     document.getElementById('new-name').value   = '';
     document.getElementById('new-desc').value   = '';
     document.getElementById('new-icon').value   = '';
@@ -859,7 +885,7 @@
         <div class="admin-item">
           <div class="admin-item-info">
             <div class="admin-item-name">
-              <span class="type-pill ${item.type === 'food' ? 'pill-food' : 'pill-money'}">${item.type === 'food' ? 'Food' : 'Monetary'}</span>
+              <span class="type-pill pill-${item.type}">${{money:'Monetary',food:'Food',drinks:'Drinks',desserts:'Desserts',paper:'Paper Goods',other:'Other'}[item.type]}</span>
               ${item.icon} ${item.name}
             </div>
             <div class="admin-item-meta">
@@ -875,8 +901,8 @@
     }
     const moneyGoal   = items.filter(i => i.type === 'money').reduce((s,i) => s + i.amount * i.qty, 0);
     const moneyRaised = donations.reduce((s,d) => s + d.moneyTotal, 0);
-    const foodNeeded  = items.filter(i => i.type === 'food').reduce((s,i) => s + i.qty, 0);
-    const foodPledged = items.filter(i => i.type === 'food').reduce((s,i) => s + i.donated, 0);
+    const foodNeeded  = items.filter(i => i.type !== 'money').reduce((s,i) => s + i.qty, 0);
+    const foodPledged = items.filter(i => i.type !== 'money').reduce((s,i) => s + i.donated, 0);
     document.getElementById('admin-summary').innerHTML = [
       tile('🎯 Check Goal',   '$' + moneyGoal.toFixed(0)),
       tile('💰 Pledged',      '$' + moneyRaised.toFixed(0)),
@@ -932,7 +958,7 @@
 
   function updateStats() {
     const raised    = donations.reduce((s,d) => s + d.moneyTotal, 0);
-    const foodCount = items.filter(i => i.type === 'food').reduce((s,i) => s + i.donated, 0);
+    const foodCount = items.filter(i => i.type !== 'money').reduce((s,i) => s + i.donated, 0);
     document.getElementById('stat-donors').textContent   = donations.length;
     document.getElementById('stat-monetary').textContent = '$' + raised.toFixed(0);
     document.getElementById('stat-food').textContent     = foodCount;
